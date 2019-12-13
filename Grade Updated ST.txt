@@ -1,0 +1,73 @@
+ /*
+ Assignment 8
+ Walter Cueva
+ IT516
+
+ run:
+ java Grade Wintergrades.txt
+
+ output:
+ GPA = 2.6941666666666664
+ MIN = 0.0
+ MAX = 4.33
+
+ */
+
+
+import java.io.*;
+import java.util.*;
+import edu.princeton.cs.algs4.ST;
+
+public class Grade {
+    public static ST<String, Double> grades = new ST<String, Double>();
+
+    public Grade() {
+        setgradestable();
+    }
+    // setting grades and scores to grades table
+    public void setgradestable() {
+        grades.put("A+", 4.33);
+        grades.put("A", 4.00);
+        grades.put("A-", 3.67);
+        grades.put("B+", 3.33);
+        grades.put("B", 3.00);
+        grades.put("B-", 2.67);
+        grades.put("C+", 2.33);
+        grades.put("C", 2.00);
+        grades.put("C-", 1.67);
+        grades.put("D", 1.00);
+        grades.put("F", 0.00);
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        Grade grade = new Grade();
+        double GPA = 0, max = 0, min = 5, newgradeScore = 0.00;
+        String temp;
+        int length = 0;
+        Scanner fin = new Scanner(new File("/Users/WalterCueva/Desktop/Wintergrades.txt"));
+        while (fin.hasNextLine()) {
+            length++;
+            temp = fin.next();
+            if (temp.length() > 0) {
+
+                newgradeScore = grades.get(temp);
+
+
+                GPA += newgradeScore;
+                if (newgradeScore < min) {
+                    min = newgradeScore;
+                }
+                if (newgradeScore > max) {
+                    max = newgradeScore;
+                }
+            }
+        }
+            GPA /= length;
+            System.out.println("GPA = " + GPA);
+            System.out.println("MIN = " + min);
+            System.out.println("MAX = " + max);
+        }
+
+
+    }

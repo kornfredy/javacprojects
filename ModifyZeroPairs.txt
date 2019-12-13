@@ -1,0 +1,94 @@
+//Walter Cueva
+/*Assignment  #5
+
+Remember Assignment 1? Zeropairs? It checks for pairs of numbers in a list that Sum to 0.
+
+TwoSum.java does essentially the same thing … and TwoSumFast.java does the same thing with a binary Search first, and should be much faster.
+
+Include the Stopwatch Class in both your Zeropairs.java and TwoSumFast.java, and run both with 64Kints.txt, and compare the running time.
+Upload just your modified Zeropairs.java and the running time results.
+*/
+
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class ModifyZeropairs {
+
+    public static void main(String[] args) throws FileNotFoundException {
+
+        Scanner scanner = new Scanner(new File("/Users/WalterCueva/Desktop/64KInts.txt"));
+
+        ArrayList<Integer> listI = new ArrayList<>();
+        ArrayList<Integer> output = new ArrayList<>();
+        int sum = 0;
+
+        while (scanner.hasNextInt()) {
+            listI.add(scanner.nextInt());
+
+        }
+
+        int count = 0;// Initialize result
+
+        Stopwatch timer = new Stopwatch();
+// Consider all possible pairs and check their sums
+        for (int i = 0; i < listI.size(); i++) {
+            for (int j = i + 1; j < listI.size(); j++) {
+                if ((listI.get(i) + listI.get(j)) == sum) {
+                    count++;
+//                    output.add(listI.get(i));
+//                    output.add(listI.get(j));
+                }
+            }
+        }
+
+        System.out.printf("Count of pairs is %d\n", count);
+        StdOut.println("elapsed time = " + timer.elapsedTime());
+//        writeToFile(output);
+
+    }
+
+//    public static void writeToFile(ArrayList<Integer> list) throws FileNotFoundException
+//    {      PrintWriter writer = null;
+//        try {
+//            writer = new PrintWriter("/Users/WalterCueva/Desktop/output.txt", "UTF-8");
+//
+//
+//            for(int i = 0; i < list.size(); i++)
+//            {
+//
+//                writer.print(list.get(i));
+//                writer.print(", ");
+//                i++;
+//                writer.print(list.get(i));
+//                writer.println();
+//
+//                System.out.println("\nThe pairs that sum exactly to 0 are: " + list.get(i-1) + " & " + list.get(i) + "\n");
+//
+//            }
+//            writer.close();
+//        } catch (UnsupportedEncodingException ex) {
+//            Logger.getLogger(Zeropairs.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            writer.close();
+//        }
+//
+//    }
+
+}
+
+//Output:
+
+//ZeroPairs
+//Count of pairs is 0
+//elapsed time = 26.473
+
+//TwoSumFast
+//elapsed time = 0.114
+//0

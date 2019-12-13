@@ -1,0 +1,69 @@
+/*
+Assignment 8
+Walter Cueva
+IT516
+ 
+ run:
+  java Grade Wintergrades.txt
+
+output:
+GPA = 2.6941666666666664
+MIN = 0.0
+MAX = 4.33
+
+*/
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class Grade {
+
+    static double getGrade(String grade) {
+        if(grade.equals("A+")) {
+            return 4.33;
+        } else if(grade.equals("A")) {
+            return 4;
+        } else if(grade.equals("A-")) {
+            return 3.67;
+        } else if(grade.equals("B+")) {
+            return 3.33;
+        } else if(grade.equals("B")) {
+            return 3;
+        } else if(grade.equals("B-")) {
+            return 2.67;
+        } else if(grade.equals("C+")) {
+            return 2.33;
+        } else if(grade.equals("C")) {
+            return 2;
+        } else if(grade.equals("C-")) {
+            return 1.67;
+        } else if(grade.equals("D")) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public static void main(String[] args) throws FileNotFoundException {
+        double GPA = 0, max = 0, min = 5, temp;
+        int length = 0;
+        Scanner fin = new Scanner(new File("/Users/WalterCueva/Desktop/Wintergrades.txt"));
+        while (fin.hasNextLine()) {
+            length++;
+            temp = getGrade(fin.nextLine());
+            GPA += temp;
+            if(temp < min) {
+                min = temp;
+            }
+            if(temp > max) {
+                max = temp;
+            }
+        }
+        GPA /= length;
+        System.out.println("GPA = " + GPA);
+        System.out.println("MIN = " + min);
+        System.out.println("MAX = " + max);
+    }
+
+}*/

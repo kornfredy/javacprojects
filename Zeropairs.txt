@@ -1,0 +1,88 @@
+ //Walter Cueva
+/*Read Algorithms Textbook 120-156 Bags, Queues, Stacks
+
+Assignment  #1 (NOT graded)
+
+Write a program called “Zeropairs.java” that does the following:
+1)	Reads integers from an input file – Use  “4KInts” in the Blackboard section “Diagrams, docs, code”, and count the number of pairs that sum to exactly 0.
+2)	Print the pairs out – and pipe these to an output file
+3)	Submit a program as a .txt file  with the results at the end.
+*/
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
+public class Zeropairs {
+
+    public static void main(String[] args) throws FileNotFoundException {
+
+        Scanner scanner = new Scanner(new File("/Users/WalterCueva/Desktop/4KInts.txt"));
+
+        ArrayList<Integer> listI = new ArrayList<>();
+        ArrayList<Integer> output = new ArrayList<>();
+        int sum = 0;
+
+        while (scanner.hasNextInt()) {
+            listI.add(scanner.nextInt());
+        }
+
+        int count = 0;// Initialize result
+
+// Consider all possible pairs and check their sums
+        for (int i = 0; i < listI.size(); i++) {
+            for (int j = i + 1; j < listI.size(); j++) {
+                if ((listI.get(i) + listI.get(j)) == sum) {
+                    count++;
+                    output.add(listI.get(i));
+                    output.add(listI.get(j));
+                }
+            }
+        }
+
+        System.out.printf("Count of pairs is %d", count);
+
+        writeToFile(output);
+
+    }
+
+    public static void writeToFile(ArrayList<Integer> list) throws FileNotFoundException
+    {      PrintWriter writer = null;
+        try {
+            writer = new PrintWriter("/Users/WalterCueva/Desktop/output.txt", "UTF-8");
+
+
+            for(int i = 0; i < list.size(); i++)
+            {
+
+                writer.print(list.get(i));
+                writer.print(" ");
+                i++;
+                writer.print(list.get(i));
+                writer.println();
+
+                System.out.println("\nThe pairs that sum exactly to 0 are: " + list.get(i-1) + " & " + list.get(i) + "\n");
+
+            }
+            writer.close();
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Zeropairs.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            writer.close();
+        }
+
+    }
+
+}
+
+/*Count of pairs is 3
+The pairs that sum exactly to 0 are: -77867 & 77867
+
+
+The pairs that sum exactly to 0 are: 192459 & -192459
+
+
+The pairs that sum exactly to 0 are: -405375 & 405375*/

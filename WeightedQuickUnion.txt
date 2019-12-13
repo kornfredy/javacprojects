@@ -1,0 +1,179 @@
+/**WeightedQuickUnion.java**/
+//Walter Cueva
+/*Read Algorithms Textbook 120-156 Bags, Queues, Stacks
+
+Assignment  #3
+use the program WeightedQuickUnionUF.java and again use the file “Assn2and3” as input. Modify the program to count the actual number of array accesses with a variable – disregard the array initialization. Submit a .txt file of the program with the results at the end.
+*/
+
+
+import java.util.Scanner;
+
+public class WeightedQuickUnionUF {
+
+
+    private int[] parent; // parent[i] = parent of i
+
+    private int[] size; // size[i] = number of sites in subtree rooted at i
+
+    private int count; // number of components
+    private int accessCount;
+    public WeightedQuickUnionUF(int n)
+
+    {
+
+        count = n;
+
+        parent = new int[n];
+
+        size = new int[n];
+        for (int i = 0; i < n; i++) {
+            parent[i] = i;
+            size[i] = 1;}
+
+    }
+
+    public int count()
+
+    {
+        return count;
+    }
+
+    public boolean connected(int p, int q)
+
+    {
+        return find(p) == find(q);
+    }
+
+    private int find(int p)
+
+    { // Follow links to find a root.
+
+        while (p != parent[p]){
+            accessCount += 2;
+            p = parent[p];
+        }
+        accessCount++;
+        return p;
+
+    }
+
+    public void union(int p, int q)
+
+    {
+        accessCount = 0;
+        int rootP = find(p);
+
+        int rootQ = find(q);
+
+        if (rootP == rootQ)
+            return;
+
+        // Make smaller root point to larger one.
+
+        if (size[rootP] < size[rootQ]) {
+            parent[rootP] = rootQ;
+            size[rootQ] += size[rootP];
+        }
+
+        else {
+            parent[rootQ] = rootP;
+            size[rootP] += size[rootQ];
+        }
+        accessCount++;
+        count--;
+
+    }
+
+    public void printId() {
+
+        StdOut.println("0 1 2 3 4 5 6 7 8 9 ");
+        StdOut.println("--------------------");
+
+        for (int i = 0; i < parent.length; i++) {
+
+            System.out.print(parent[i] + " ");
+        }
+        System.out.println();
+        System.out.println("Array ID was accessed "+accessCount + " times");
+    }
+
+
+    public static void main(String[] args) {
+        WeightedQuickUnionUF union = new WeightedQuickUnionUF(10);
+        int n=0;
+        Scanner in = new Scanner(System.in);
+        while(n++ < 8){
+            System.out.print("Enter pair & press enter:");
+            int p = in.nextInt();
+            int q = in.nextInt();
+
+            System.out.println("p= "+p+" & q= "+q);
+            union.union(p, q);
+            union.printId();
+            System.out.println();
+        }
+    }
+}
+/*
+___________________________________________________
+output:
+
+Enter pair & press enter:9 0
+p= 9 & q= 0
+0 1 2 3 4 5 6 7 8 9 
+--------------------
+9 1 2 3 4 5 6 7 8 9 
+Array ID was accessed 3 times
+
+Enter pair & press enter:3 4
+p= 3 & q= 4
+0 1 2 3 4 5 6 7 8 9 
+--------------------
+9 1 2 3 3 5 6 7 8 9 
+Array ID was accessed 3 times
+
+Enter pair & press enter:5 8
+p= 5 & q= 8
+0 1 2 3 4 5 6 7 8 9 
+--------------------
+9 1 2 3 3 5 6 7 5 9 
+Array ID was accessed 3 times
+
+Enter pair & press enter:7 2
+p= 7 & q= 2
+0 1 2 3 4 5 6 7 8 9 
+--------------------
+9 1 7 3 3 5 6 7 5 9 
+Array ID was accessed 3 times
+
+Enter pair & press enter:2 1
+p= 2 & q= 1
+0 1 2 3 4 5 6 7 8 9 
+--------------------
+9 7 7 3 3 5 6 7 5 9 
+Array ID was accessed 5 times
+
+Enter pair & press enter:5 7
+p= 5 & q= 7
+0 1 2 3 4 5 6 7 8 9 
+--------------------
+9 7 7 3 3 7 6 7 5 9 
+Array ID was accessed 3 times
+
+Enter pair & press enter:0 3
+p= 0 & q= 3
+0 1 2 3 4 5 6 7 8 9 
+--------------------
+9 7 7 9 3 7 6 7 5 9 
+Array ID was accessed 5 times
+
+Enter pair & press enter:4 2
+p= 4 & q= 2
+0 1 2 3 4 5 6 7 8 9 
+--------------------
+9 7 7 9 3 7 6 7 5 7 
+Array ID was accessed 9 times
+
+
+Process finished with exit code 0

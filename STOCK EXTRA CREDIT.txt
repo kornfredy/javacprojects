@@ -1,0 +1,180 @@
+/**Summer 2018
+ IT516 Extra Credit Assignment
+Walter Cueva
+ Coach Tom is interested in stock prices, and what they are real-time during the day.
+ Create a .java program to web scrape Stock prices off the Internet and present them in a readable form, on screen or preferably in a
+ .txt file. More credit will be given if you include extras such as beta, change %, etc …
+*/
+
+
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+
+public class webscrape {
+
+    public static void scrap(String stock) throws Exception {
+        // create a html doc using jsoup
+        Document doc = Jsoup.connect("https://finance.yahoo.com/quote/" + stock).get();
+
+        // to write output to file
+        PrintWriter pw = new PrintWriter(stock+".txt");
+
+
+
+
+        // get various info from the doc
+
+        // get title h1
+        Element title = doc.getElementsByTag("h1").get(0);
+
+        // get subtitle
+        Element subtitle = doc.select("span").select("[data-reactid=9]").get(1);
+
+        // get current price
+        Element price = doc.select("span").select("[data-reactid=21]").get(0);
+
+        // get profit loss
+        Element profitLoss = doc.select("span").select("[data-reactid=23]").get(0);
+
+        // closing time of the stock
+        Element closeTime = doc.select("span").select("[data-reactid=38]").get(0);
+
+        // summary section contains the table with various info of the stock
+        Elements summarySection = doc.getElementsByTag("table").select("[data-reactid=37]");
+
+
+        // write title and subtitle
+        pw.println(title.text());
+        pw.println(subtitle.text());
+
+        pw.println();
+
+        // write price and profit loss for the day and close time
+        pw.println(price.text() + " ["+profitLoss.text()+"]");
+        pw.println(closeTime.text());
+
+
+
+        // get and print summary from web page
+
+        pw.println("\n --------------- Summary --------------- \n");
+
+        // get each column in the table
+        pw.printf("%-30s = %s\n", "Previous Close",summarySection.select("[data-reactid=41]").text());
+        pw.printf("%-30s = %s\n","Open",summarySection.select("[data-reactid=48]").text());
+        pw.printf("%-30s = %s\n","Bid",summarySection.select("[data-reactid=53]").text());
+        pw.printf("%-30s = %s\n","Ask",summarySection.select("[data-reactid=58]").text());
+        pw.printf("%-30s = %s\n","Day's Range",summarySection.select("[data-reactid=62]").text());
+        pw.printf("%-30s = %s\n","52 Week Range",summarySection.select("[data-reactid=66]").text());
+        pw.printf("%-30s = %s\n","Volume",summarySection.select("[data-reactid=71]").text());
+        pw.printf("%-30s = %s\n","Avg. Volume",summarySection.select("[data-reactid=75]").text());
+
+
+        // now get the summary section of the second table
+        summarySection = doc.getElementsByTag("table").select("[data-reactid=78]");
+
+        // get each column in the table and write to file
+        pw.printf("%-30s = %s\n","Market Cap",summarySection.select("[data-reactid=84]").text());
+        pw.printf("%-30s = %s\n","Beta",summarySection.select("[data-reactid=89]").text());
+        pw.printf("%-30s = %s\n","PE Ratio (TTM)",summarySection.select("[data-reactid=94]").text());
+        pw.printf("%-30s = %s\n","EPS (TTM)",summarySection.select("[data-reactid=99]").text());
+        pw.printf("%-30s = %s\n","Earnings Date",summarySection.select("[data-reactid=104]").text());
+        pw.printf("%-30s = %s\n","Forward Dividend & Yield",summarySection.select("[data-reactid=108]").text());
+        pw.printf("%-30s = %s\n","Ex-Dividend Date",summarySection.select("[data-reactid=112]").text());
+        pw.printf("%-30s = %s\n","1y Target Est",summarySection.select("[data-reactid=117]").text());
+
+        pw.close();
+
+    }
+
+
+
+    public static void main(String[] args) throws Exception {
+        // to read from user
+        Scanner scan = new Scanner(System.in);
+
+        // read stock symbol
+        System.out.println("Please enter stock ticker symbol: ");
+        String stock = scan.nextLine();
+
+
+        // web scrape
+        scrap(stock.toUpperCase().trim());
+
+        // print success message
+        System.out.println("Stock info saved in the file.");
+
+        // close scanner
+        scan.close();
+
+
+    }
+}
+______________________________________________________
+
+EXAMPLE 1:
+
+Apple Inc. (AAPL)
+News
+
+(-0.58%) [-0.58%]
+At close: 4:00PM EDT
+
+ --------------- Summary --------------- 
+
+Previous Close                 = Previous Close
+Open                           = 191.90
+Bid                            = 190.00 x 100
+Ask                            = 190.05 x 1000
+Day's Range                    = 189.07 - 192.20
+52 Week Range                  = 148.13 - 195.96
+Volume                         = 18,715,876
+Avg. Volume                    = 24,133,293
+Market Cap                     = 933.434B
+Beta                           = 1.14
+PE Ratio (TTM)                 = 18.37
+EPS (TTM)                      = 10.34
+Earnings Date                  = Jul 31, 2018
+Forward Dividend & Yield       = 2.92 (1.57%)
+Ex-Dividend Date               = 2018-05-11
+1y Target Est                  = 203.22
+
+
+EXAMPLE 2:
+
+Advanced Micro Devices, Inc. (AMD)
+News
+
+(-0.58%) [-0.58%]
+At close: 4:00PM EDT
+
+ --------------- Summary --------------- 
+
+Previous Close                 = Previous Close
+Open                           = 19.40
+Bid                            = 19.37 x 400
+Ask                            = 19.40 x 500
+Day's Range                    = 19.31 - 20.18
+52 Week Range                  = 9.04 - 20.18
+Volume                         = 158,186,423
+Avg. Volume                    = 61,575,692
+Market Cap                     = 18.825B
+Beta                           = 3.44
+PE Ratio (TTM)                 = 127.76
+EPS (TTM)                      = 0.15
+Earnings Date                  = Oct 22, 2018
+Forward Dividend & Yield       = Forward Dividend & Yield
+Ex-Dividend Date               = Ex-Dividend Date
+1y Target Est                  = 1y Target Est
+
+______________________________________________________
+
+Approach to the problem:
+
+In order to get the required information from the url, we need to make a http request to the url (https://finance.yahoo.com/quote/) above and get the response. I used java jsoup module to make the http request. Once the request is fulfilled, I get the full html code which can be accessed by right clicking on the website and selecting view page source. This can be done in any browser. After getting that html code, all our required field values (Open, Bid, Ask, etc) will be found within the requested html code. At this point, I just need to scrap/ filter the code and get the required fields. Jsoup make things quite simple as it provides get values by HTML tag names and properties. After getting the required values, we need to store them into a txt. file. The filename is the passing parameter for which to lookup the stock values and write the data into the file. (Ex. If you scrape for AAPL, the output file will be named AAPL.txt)

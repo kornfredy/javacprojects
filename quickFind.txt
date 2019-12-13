@@ -1,0 +1,59 @@
+//Walter Cueva
+/*Read Algorithms Textbook 120-156 Bags, Queues, Stacks
+
+Assignment  #2
+
+Similar to what we did in class - For the following sequence of pairs, Show the contents of the id [] array and count the number of times the array is accessed for each input pair when you use the quick-find algorithm. Hand in the trace and total number of array accesses as a .txt file – no program needs to be submitted, just the results
+Use QuickFindUF.java to make your calculations, and use the file “Assn2and3” as input. The file is in the Blackboard section “Diagrams, docs, code “.
+*/
+
+
+Enter Pairs & Press Enter: 10
+9 0
+p q 0 1 2 3 4 5 6 7 8 9 
+------------------------
+9 0 0 1 2 3 4 5 6 7 8 0 
+Array id was accessed 1 times
+
+3 4
+p q 0 1 2 3 4 5 6 7 8 9 
+------------------------
+3 4 0 1 2 4 4 5 6 7 8 0 
+Array id was accessed 1 times
+
+5 8
+p q 0 1 2 3 4 5 6 7 8 9 
+------------------------
+5 8 0 1 2 4 4 8 6 7 8 0 
+Array id was accessed 1 times
+
+7 2
+p q 0 1 2 3 4 5 6 7 8 9 
+------------------------
+7 2 0 1 2 4 4 8 6 2 8 0 
+Array id was accessed 1 times
+
+2 1
+p q 0 1 2 3 4 5 6 7 8 9 
+------------------------
+2 1 0 1 1 4 4 8 6 1 8 0 
+Array id was accessed 2 times
+
+
+5 7
+p q 0 1 2 3 4 5 6 7 8 9 
+------------------------
+5 7 0 1 1 4 4 1 6 1 1 0 
+Array id was accessed 2 times
+
+0 3
+p q 0 1 2 3 4 5 6 7 8 9 
+------------------------
+0 3 4 1 1 4 4 1 6 1 1 4 
+Array id was accessed 2 times
+
+4 2
+p q 0 1 2 3 4 5 6 7 8 9 
+------------------------
+4 2 1 1 1 1 1 1 6 1 1 1 
+Array id was accessed 4 times
